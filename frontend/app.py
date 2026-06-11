@@ -457,21 +457,12 @@ CONTEXT from company documents:
 
 USER QUESTION: {question}
 
-Please provide a professional response. Format your answer with these clear sections:
+INSTRUCTIONS:
+- If the CONTEXT contains information relevant to answering the question, use it to answer with sections: Key Findings, Reasoning, Risk Assessment, Recommendation
+- If the CONTEXT is empty or has no relevant information, respond: "I don't have any documents related to your question. Please upload relevant documents."
+- Always try to answer using the context if possible
 
-Key Findings:
-[Write the main findings here]
-
-Reasoning:
-[Explain your reasoning and cite specific documents]
-
-Risk Assessment:
-[State risk level: Low/Medium/High/Critical]
-
-Recommendation:
-[Provide your recommendation]
-
-Answer concisely:"""
+Answer:"""
 
     try:
         response_text = call_local_model(prompt)
@@ -527,7 +518,6 @@ Answer concisely:"""
             "sources": [{"title": "EGIP Fallback Knowledge Base", "relevance": 0}],
             "response_time": str(response_time)
         }), 200
-
 
 @app.route('/api/sources/search', methods=['POST'])
 def search_sources():
